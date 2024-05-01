@@ -7,7 +7,7 @@
   </div>
   <div class="row">
     <ul class="col-xs-12 col-md-8 offset-md-2 list-unstyled">
-      {{ range .Pages }}
+      {{ range where .Site.RegularPages "Section" "modules" }}
       <li class="border-bottom">
         <h2>
           <a href="{{ .Params.wiki }}" target="_blank">{{ .Title }}</a>

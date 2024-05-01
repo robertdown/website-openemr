@@ -1,9 +1,11 @@
 {{ define "main" }}
-<main class="blog-list">
-    {{ range where .Pages "Params.featured" "yes" }}
+<main class="blog-list">      
+{{ $pages := where .Site.RegularPages "Section" "blog" }}
+    {{ range where $pages "Params.featured" "yes" }}
         {{ partial "blog/post-stub.html" . }}
     {{ end }}
-    {{ range where .Pages "Params.featured" "ne" "yes" }}
+
+    {{ range where $pages "Params.featured" "ne" "yes" }}
         {{ partial "blog/post-stub.html" .}}
     {{ end }}
 </main>

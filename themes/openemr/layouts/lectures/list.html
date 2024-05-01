@@ -2,39 +2,47 @@
 <main class="page container-fluid lectures-list" title="Lecture Series">
   <div class="row">
     <div class="col-xs-12 col-md-8 offset-md-2 mb-2">
-        <h1 class="pb-2 mb-0">OpenEMR Lecture Series</h1>
-        <p class="lead">
-          The OpenEMR Development Lecture Series is a once monthly lecture on a OpenEMR Development topic on the second Saturday of every month. Anyone interested in listening and participating is welcome. 
-        </p>
+      <h1 class="pb-2 mb-0">{{ .Title }}</h1>
+      <p class="lead">{{ .Content }}</p>
         <div class="row">
           <div class="col-sm-12 col-md pb-4 pb-sm-0">
-            <dl>
-              <dt><strong>The Day</strong></dt>
-              <dd>The second Saturday of every month</dd>
-            </dl>
-            <dl>
-              <dt>The Time</dt>
-              <dd>2:00pm Eastern / 11:00 am Pacific</dd>
-            </dl>
-            <dl>
-              <dt>The Meeting ID</dt>
-              <dd>567-231-500</dd>
-            </dl>
-            <dl>
-              <dt>The Passcode</dt>
-              <dd>989410</dd>
-            </dl>
-            <a href="https://zoom.us/zoomconference">International Numbers Available</a>
+            {{ with .Params.day }}
+              <dl>
+                <dt><strong>The Day</strong></dt>
+                <dd>{{ . }}</dd>
+              </dl>
+            {{ end }}
+            {{ with .Params.time }}
+              <dl>
+                <dt><strong>The Time</strong></dt>
+                <dd>{{ . }}</dd>
+              </dl>
+            {{ end }}
+            {{ with .Params.meeting_id }}
+              <dl>
+                <dt><strong>The Meeting ID</strong></dt>
+                <dd>{{ . }}</dd>
+              </dl>
+            {{ end }}
+            {{ with .Params.passcode }}
+              <dl>
+                <dt><strong>The Passcode</strong></dt>
+                <dd>{{ . }}</dd>
+              </dl>
+            {{ end }}
+            {{ with .Params.international_numbers_href }}
+              <a href=".">International Numbers Available</a>
+            {{ end }}
+            
           </div>
           <div class="col-sm-12 col-md">
-            <div class="d-grid gap-1"><a href="https://zoom.us/j/567231500" target="_blank" class="btn btn-outline-primary">Launch Zoom Meeting</a></div>
+            <div class="d-grid gap-1"><a href="https://zoom.us/j/{{ .Params.meeting_id }}" target="_blank" class="btn btn-outline-primary">Launch Zoom Meeting</a></div>
             <div class="text-center pt-3 text-muted"><i class="fa fa-phone"></i>&nbsp;Auto Join by Location</div>
-            <div class="d-grid gap-1"><a href="tel:2532158782,567231500#,,#,989410#" class="btn m-1 text-start btn-outline-dark">(253) 215-8782 Tacoma, WA, USA</a></div>
-            <div class="d-grid gap-1"><a href="tel:3462487799,567231500#,,#,989410#" class="btn m-1 text-start btn-outline-dark">(346) 248-7799 Houston, TX, USA</a></div>
-            <div class="d-grid gap-1"><a href="tel:6999006833,567231500#,,#,989410#" class="btn m-1 text-start btn-outline-dark">(669) 900-6833 San Jose, CA, USA</a></div>
-            <div class="d-grid gap-1"><a href="tel:3126266799,567231500#,,#,989410#" class="btn m-1 text-start btn-outline-dark">(312) 626-6799 Chicago, IL, USA</a></div>
-            <div class="d-grid gap-1"><a href="tel:6468769923,567231500#,,#,989410#" class="btn m-1 text-start btn-outline-dark">(646) 876-9923 New York, NY, USA</a></div>
-            <div class="d-grid gap-1"><a href="tel:3017158592,567231500#,,#,989410#" class="btn m-1 text-start btn-outline-dark">(301) 715-8592 Washington DC, USA</a></div>
+            {{ with .Params.auto_join_numbers }}
+              {{ range .}}
+                <div class="d-grid gap-1"><a href="tel:{{ .number }},{{ .Params.meeting_id }}#,,#,{{ .Params.passcode }}#" class="btn m-1 text-start btn-outline-dark d-flex"><span class="flex-fill">{{ .location }}</span><span>({{ substr .number 0 3  }}) {{ substr .number 2 3}}-{{ substr .number 5 4 }}</span></a></div>
+              {{ end }}
+            {{ end }}
           </div>
         </div>
       </div>
@@ -42,7 +50,7 @@
   </div>
   <div class="row">
     <ul class="col-xs-12 col-md-8 offset-md-2 list-unstyled">
-      {{ range .Pages }}
+      {{ range where .Site.RegularPages "Section" "lectures" }}
       <li id="{{ anchorize .Title }}" class="border-bottom border-top pt-4 pb-2">
         <h2>
           {{ .Scratch.Set "lectureDate" (cond (isset .Params "publishDate") .Params.publishDate .Params.date) }}

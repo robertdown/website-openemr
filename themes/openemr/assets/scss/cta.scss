@@ -1,0 +1,33 @@
+.cta  {
+    
+    .display-1 {
+        font-family: 'IBM Plex Sans';
+        font-weight: 300;
+        font-size: 3em;
+    }
+
+    @include media-breakpoint-up(md) {
+        .display-1 {
+            font-size:5em;
+        }
+    }
+
+    p strong {
+        font-weight: bold;
+    }
+
+    background-color: hsl(76, 91, 38) !important;
+    @include transition(0.25s);
+
+    &:hover {
+        transform: scale(1.015);
+        background-color: hsl(76, 91, 35) !important;
+    }
+
+    a {
+        color: $gray-900;
+        &:hover {
+            text-decoration: none !important;
+        }
+    }
+}

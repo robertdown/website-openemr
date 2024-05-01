@@ -1,0 +1,9 @@
+<div class="d-flex">
+  <div class="text-left">
+      <h1>{{ .Title }}</h1>
+      <p>{{ .Content }}</p>
+  </div>
+  <div>
+    <img src="{{ .Params.Image | absURL }}" alt="" class="img-fluid">
+  </div>
+</div>
